@@ -46,6 +46,7 @@ public class FineDish extends AbstractEntity{
 	@Length(min=1,max=256)
 	protected String request;
 	
+	
 	@NotNull
 	protected Money budget;
 	
