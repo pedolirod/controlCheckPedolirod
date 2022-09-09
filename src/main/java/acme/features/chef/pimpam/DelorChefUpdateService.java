@@ -9,8 +9,7 @@ import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import acme.entities.fineDish.FineDish;
-import acme.entities.pimpam.Pimpam;
+import acme.entities.delor.Delor;
 import acme.entities.systemSetting.SystemSettings;
 import acme.framework.components.models.Model;
 import acme.framework.controllers.Errors;
@@ -23,15 +22,15 @@ import acme.framework.services.AbstractUpdateService;
 import acme.roles.Chef;
 
 @Service
-public class PimpamChefUpdateService implements AbstractUpdateService<Chef, Pimpam>{
+public class DelorChefUpdateService implements AbstractUpdateService<Chef, Delor>{
 	
 	@Autowired
-	protected PimpamRepository repository;
+	protected DelorRepository repository;
 	
 	// AbstractUpdateService<Patron, Patronage> interface ---------------------
 	
 	@Override
-	public boolean authorise(final Request<Pimpam> request) {
+	public boolean authorise(final Request<Delor> request) {
 		assert request != null;
 		
 
@@ -40,29 +39,29 @@ public class PimpamChefUpdateService implements AbstractUpdateService<Chef, Pimp
 	}
 
 	@Override
-	public void bind(final Request<Pimpam> request, final Pimpam entity, final Errors errors) {
+	public void bind(final Request<Delor> request, final Delor entity, final Errors errors) {
 		assert request != null;
 		assert entity != null;
 		assert errors != null;
 		
 
 		
-		request.bind(entity, errors,"code", "instantiationMoment", "title", "description" ,"startPeriod",
-			"finishPeriod", "budget", "link");
+		request.bind(entity, errors,"keylet", "instantiationMoment", "subject", "explanation" ,"startPeriod",
+			"finishPeriod", "income", "moreInfo");
 	
 		
 	}
 
 	@Override
-	public void unbind(final Request<Pimpam> request, final Pimpam entity, final Model model) {
+	public void unbind(final Request<Delor> request, final Delor entity, final Model model) {
 		assert request != null;
 		assert entity != null;
 		assert model != null;
 		
 
 		
-		request.unbind(entity, model,"code", "instantiationMoment", "title", "description" ,"startPeriod",
-				"finishPeriod", "budget", "link");
+		request.unbind(entity, model,"keylet", "instantiationMoment", "subject", "description" ,"startPeriod",
+				"finishPeriod", "income", "moreInfo");
 
 		model.setAttribute("artifactId", entity.getArtifact().getId());
 		model.setAttribute("artifactPublish", entity.getArtifact().isPublished());
@@ -70,25 +69,25 @@ public class PimpamChefUpdateService implements AbstractUpdateService<Chef, Pimp
 	}
 
 	@Override
-	public Pimpam findOne(final Request<Pimpam> request) {
+	public Delor findOne(final Request<Delor> request) {
 		assert request != null;
 		
-		Pimpam finedish;
+		Delor finedish;
 		int id;
 		
 		id = request.getModel().getInteger("id");
-		finedish = this.repository.findOnePimpamById(id);
+		finedish = this.repository.findOneDelorById(id);
 		
 		return finedish;
 	}
 
 	@Override
-	public void validate(final Request<Pimpam> request, final Pimpam entity, final Errors errors) {
+	public void validate(final Request<Delor> request, final Delor entity, final Errors errors) {
 		assert request != null;
 		assert entity != null;
 		assert errors != null;
 		
-		Calendar d=Calendar.getInstance();
+		final Calendar d=Calendar.getInstance();
 		d.setTime(entity.getInstantiationMoment());
 		d.add(Calendar.MONTH, 1);
 		
@@ -100,7 +99,7 @@ public class PimpamChefUpdateService implements AbstractUpdateService<Chef, Pimp
 					"chef.pimpam.error.month.startPeriod");
 		}
 		
-		Calendar ds=Calendar.getInstance();
+		final Calendar ds=Calendar.getInstance();
 		if(entity.getStartPeriod()!=null ) {
 		ds.setTime(entity.getStartPeriod());
 		}
@@ -119,23 +118,23 @@ public class PimpamChefUpdateService implements AbstractUpdateService<Chef, Pimp
 		
 
 		
-		Money money=entity.getBudget();
+		final Money money=entity.getIncome();
 		final SystemSettings c = this.repository.findConfiguration();
-		if (!errors.hasErrors("budget")) {
+		if (!errors.hasErrors("income")) {
 
 
-			errors.state(request, money.getAmount()>=0., "budget",
+			errors.state(request, money.getAmount()>=0., "income",
 					"chef.pimpam.error.budget");
 			
 			errors.state(request, c.getAcceptedCurrencies().contains(money.getCurrency()) ,
-					  "budget", "chef.pimpam.not-able-currency");
+					  "income", "chef.pimpam.not-able-currency");
 		}
 		
 		
 	}
 
 	@Override
-	public void update(final Request<Pimpam> request, final Pimpam entity) {
+	public void update(final Request<Delor> request, final Delor entity) {
 		assert request != null;
 		assert entity != null;
 		
@@ -143,7 +142,7 @@ public class PimpamChefUpdateService implements AbstractUpdateService<Chef, Pimp
 	}
 	
 	@Override
-	public void onSuccess(final Request<Pimpam> request, final Response<Pimpam> response) {
+	public void onSuccess(final Request<Delor> request, final Response<Delor> response) {
 		assert request != null;
 		assert response != null;
 

@@ -4,10 +4,7 @@ package acme.features.chef.pimpam;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,7 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import acme.entities.artifact.Artifact;
-import acme.entities.pimpam.Pimpam;
+import acme.entities.artifact.ArtifactType;
+import acme.entities.delor.Delor;
 import acme.entities.systemSetting.SystemSettings;
 import acme.framework.components.models.Model;
 import acme.framework.controllers.Errors;
@@ -27,29 +25,29 @@ import acme.framework.services.AbstractCreateService;
 import acme.roles.Chef;
 
 @Service
-public class PimpamChefCreateService implements AbstractCreateService<Chef, Pimpam>{
+public class DelorChefCreateService implements AbstractCreateService<Chef, Delor>{
 	
 	@Autowired
-	protected PimpamRepository repository;
+	protected DelorRepository repository;
 		
 	// AbstractCreateService<Patron, Patronage> interface ---------------------
 	
 	@Override
-	public boolean authorise(final Request<Pimpam> request) {
+	public boolean authorise(final Request<Delor> request) {
 		assert request != null;
 		
 		return true;
 	}
 
 	@Override
-	public void bind(final Request<Pimpam> request, final Pimpam entity, final Errors errors) {
+	public void bind(final Request<Delor> request, final Delor entity, final Errors errors) {
 		assert request != null;
 		assert entity != null;
 		assert errors != null;
 
 		
 		
-		request.bind(entity, errors, "title", "description", "startPeriod", "finishPeriod", "budget", "link");
+		request.bind(entity, errors, "subject", "explanation", "startPeriod", "finishPeriod", "income", "moreInfo");
 		
 		Model model;
 		Artifact selectedArtifact;
@@ -62,52 +60,57 @@ public class PimpamChefCreateService implements AbstractCreateService<Chef, Pimp
 	}
 
 	@Override
-	public void unbind(final Request<Pimpam> request, final Pimpam entity, final Model model) {
+	public void unbind(final Request<Delor> request, final Delor entity, final Model model) {
 		assert request != null;
 		assert entity != null;
 		assert model != null;
 		
 		List<Artifact> artifacts;
 		
-		List<Pimpam> lp=this.repository.findAllPimpam();
-		Set<Artifact> la= new HashSet<Artifact>();
-		for(Pimpam p:lp) {
-			la.add(p.getArtifact());
+		final List<Delor> lp=this.repository.findAllDelor();
+		final Set<Artifact> la= new HashSet<Artifact>();
+		for(final Delor p:lp) {
+			if(p.getArtifact().getType().equals(ArtifactType.INGREDIENT) && !p.getArtifact().isPublished()) {
+				la.add(p.getArtifact());
+			}
+			
 		}
 		
 		artifacts=this.repository.findAllArtifact();	
 	
-		request.unbind(entity, model, "title", "description", "startPeriod", "finishPeriod", "budget", "link");
+		request.unbind(entity, model, "subject", "explanation", "startPeriod", "finishPeriod", "income", "moreInfo");
 		
 		model.setAttribute("isNew", true);
 		model.setAttribute("artifacts", artifacts.stream().filter(x->!x.isPublished()).filter(y->!la.contains(y)).collect(Collectors.toList()));
 	}
 
 	@Override
-	public Pimpam instantiate(final Request<Pimpam> request) {
+	public Delor instantiate(final Request<Delor> request) {
 		assert request != null;
 		
-		Pimpam result;
+		Delor result;
 		
 		
 		
-		result = new Pimpam();
-		LocalDate localDate = LocalDate.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd");
-		String formattedString = localDate.format(formatter);
-		result.setCode(formattedString);
+		result = new Delor();
+		final LocalDate localDate = LocalDate.now();
+		final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd");
+		final int random = (int) (Math.random()*(9999-1000+1)+1000);
+		final String formattedString = localDate.format(formatter);
+		final String keylet=""+random+formatter;
+		result.setKeylet(keylet);
 		result.setInstantiationMoment(Calendar.getInstance().getTime());
 		
 		return result;
 	}
 
 	@Override
-	public void validate(final Request<Pimpam> request, final Pimpam entity, final Errors errors) {
+	public void validate(final Request<Delor> request, final Delor entity, final Errors errors) {
 		assert request != null;
 		assert entity != null;
 		assert errors != null;
 		
-		Calendar d=Calendar.getInstance();
+		final Calendar d=Calendar.getInstance();
 		d.setTime(entity.getInstantiationMoment());
 		d.add(Calendar.MONTH, 1);
 		
@@ -119,7 +122,7 @@ public class PimpamChefCreateService implements AbstractCreateService<Chef, Pimp
 					"chef.pimpam.error.month.startPeriod");
 		}
 		
-		Calendar ds=Calendar.getInstance();
+		final Calendar ds=Calendar.getInstance();
 		if(entity.getStartPeriod()!=null ) {
 		ds.setTime(entity.getStartPeriod());
 		}
@@ -138,7 +141,7 @@ public class PimpamChefCreateService implements AbstractCreateService<Chef, Pimp
 		
 
 		
-		Money money=entity.getBudget();
+		final Money money=entity.getIncome();
 		final SystemSettings c = this.repository.findConfiguration();
 		if (!errors.hasErrors("budget")) {
 
@@ -156,7 +159,7 @@ public class PimpamChefCreateService implements AbstractCreateService<Chef, Pimp
 	}
 
 	@Override
-	public void create(final Request<Pimpam> request, final Pimpam entity) {
+	public void create(final Request<Delor> request, final Delor entity) {
 		assert request != null;
 		assert entity != null;
 		

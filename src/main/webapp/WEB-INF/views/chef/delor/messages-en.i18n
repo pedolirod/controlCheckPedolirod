@@ -9,19 +9,20 @@
 # they accept any liabilities with respect to them.
 
 
-chef.pimpam.list.label.code=Code
+chef.pimpam.list.label.code=Keylet
 chef.pimpam.list.label.instantiationMoment=Instantiation Moment
-chef.pimpam.list.label.title=Title
-chef.pimpam.list.label.description=Description
+chef.pimpam.list.label.title=Subject
+chef.pimpam.list.label.description=Explanation
+chef.pimpam.form.label.artifact= Ingredinents with this delor
 
-chef.pimpam.form.label.code=Code
+chef.pimpam.form.label.code=Keylet
 chef.pimpam.form.label.instantiationMoment=Instantiation Moment
-chef.pimpam.form.label.title=Title
-chef.pimpam.form.label.description=Description
+chef.pimpam.form.label.title=Subject
+chef.pimpam.form.label.description=Explanation
 chef.pimpam.form.label.startPeriod=Start Period
 chef.pimpam.form.label.finishPeriod=Finish Period
-chef.pimpam.form.label.budget=Budget
-chef.pimpam.form.label.link=Link
+chef.pimpam.form.label.budget=Income
+chef.pimpam.form.label.link=More Info
 chef.pimpam.form.button.create = Create
 chef.pimpam.form.button.update = Update
 chef.pimpam.form.button.delete = Delete

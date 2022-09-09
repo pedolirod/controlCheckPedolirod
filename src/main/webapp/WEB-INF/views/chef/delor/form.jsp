@@ -18,12 +18,12 @@
 <jstl:choose>
 <jstl:when test="${isNew == true}">	
 <acme:form>
-	<acme:input-textbox code="chef.pimpam.form.label.title" path="title" />
-	<acme:input-textbox code="chef.pimpam.form.label.description" path="description" />
+	<acme:input-textbox code="chef.pimpam.form.label.title" path="subject" />
+	<acme:input-textbox code="chef.pimpam.form.label.description" path="explanation" />
 	<acme:input-textbox code="chef.pimpam.form.label.startPeriod" path="startPeriod" />
 	<acme:input-textbox code="chef.pimpam.form.label.finishPeriod" path="finishPeriod" />
-	<acme:input-money code="chef.pimpam.form.label.budget" path="budget" />
-	<acme:input-textbox code="chef.pimpam.form.label.link" path="link" />
+	<acme:input-money code="chef.pimpam.form.label.budget" path="income" />
+	<acme:input-textbox code="chef.pimpam.form.label.link" path="moreInfo" />
 	<acme:input-select code="chef.pimpam.form.label.select.artifact" path="artifacts">
 				<jstl:forEach items="${artifacts}" var="artifact">
 					<acme:input-option code="${artifact.getCode()}" value="${artifact.getId()}" />
@@ -31,7 +31,7 @@
 			</acme:input-select>
 	
 	
-	<acme:submit code="chef.pimpam.form.button.create" action="/chef/pimpam/create"/>
+	<acme:submit code="chef.pimpam.form.button.create" action="/chef/delor/create"/>
 </acme:form>
 
 
@@ -41,19 +41,19 @@
 
 <jstl:otherwise>	
 <acme:form >
-	<acme:input-textbox code="chef.pimpam.form.label.code" path="code" readonly="true"/>
+	<acme:input-textbox code="chef.pimpam.form.label.code" path="keylet" readonly="true"/>
 	<acme:input-textbox code="chef.pimpam.form.label.instantiationMoment" path="instantiationMoment" readonly="true"/>
-	<acme:input-textbox code="chef.pimpam.form.label.title" path="title" />
-	<acme:input-textbox code="chef.pimpam.form.label.description" path="description" />
+	<acme:input-textbox code="chef.pimpam.form.label.title" path="subject" />
+	<acme:input-textbox code="chef.pimpam.form.label.description" path="explanation" />
 	<acme:input-textbox code="chef.pimpam.form.label.startPeriod" path="startPeriod" />
 	<acme:input-textbox code="chef.pimpam.form.label.finishPeriod" path="finishPeriod" />
-	<acme:input-money code="chef.pimpam.form.label.budget" path="budget" />
-	<acme:input-textbox code="chef.pimpam.form.label.link" path="link" />
+	<acme:input-money code="chef.pimpam.form.label.budget" path="income" />
+	<acme:input-textbox code="chef.pimpam.form.label.link" path="moreInfo" />
 	<acme:button code="chef.pimpam.form.label.artifact" action="/any/artifact/show?id=${artifactId}" />
 
 <jstl:if test="${artifactPublish == false}">
-<acme:submit code="chef.pimpam.form.button.update" action="/chef/pimpam/update"/>
-<acme:submit code="chef.pimpam.form.button.delete" action="/chef/pimpam/delete"/>
+<acme:submit code="chef.pimpam.form.button.update" action="/chef/delor/update"/>
+<acme:submit code="chef.pimpam.form.button.delete" action="/chef/delor/delete"/>
 </jstl:if>
 
 </acme:form>

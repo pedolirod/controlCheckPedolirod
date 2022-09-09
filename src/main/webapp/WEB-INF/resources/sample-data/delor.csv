@@ -1,0 +1,3 @@
+key,keylet,instantiationMoment,subject,explanation,startPeriod,finishPeriod,income,more-info,key:artifact
+pimpam-01,000001:220902,2022/09/02 12:00,hola,holaaaaaa,2022/07/07 16:30,2022/07/14 16:30,EUR 88.00,null,artifact-01
+pimpam-02,000002:220906,2022/09/06 12:00,hola,holaaaaaa,2022/07/06 16:30,2022/07/13 16:30,EUR 69.00,null,artifact-02

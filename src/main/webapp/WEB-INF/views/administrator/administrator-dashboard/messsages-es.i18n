@@ -23,8 +23,8 @@ administrator.dashboard.deviationFineDishBudget = Desvación del presupuesto
 administrator.dashboard.maximumFineDishBudget = Presupuesto máximo
 administrator.dashboard.minimumFineDishBudget = Presupuesto mínimo
 
-administrator.dashboard.averagePimpamBudget = Presupuesto medio
-administrator.dashboard.deviationPimpamBudget = Desvación del presupuesto
-administrator.dashboard.maximumPimpamBudget = Presupuesto máximo
-administrator.dashboard.minimumPimpamBudget = Presupuesto mínimo
+administrator.dashboard.averagePimpamBudget = dinero medio
+administrator.dashboard.deviationPimpamBudget = Desvación del dinero
+administrator.dashboard.maximumPimpamBudget = dinero máximo
+administrator.dashboard.minimumPimpamBudget = dinero mínimo
 administrator.dashboard.form.label.ratio-of-artifacts = Ratio
